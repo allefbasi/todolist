@@ -1,27 +1,59 @@
 import {Button, Form, Grid, Header, Message, Segment} from 'semantic-ui-react'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 
 export function LoginPage() {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [passwordError, setPasswordError] = useState(null);
-    const [emailError, setEmailError] = useState(null);
+    const [passwordError, setPasswordError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+    const [loginError, setLoginError] = useState('');
+
+    const navigate = useNavigate();
 
     const onLoginClick = () => {
         //todo
-        if (email === '') {
+        if (email === '' && password === '') {
             setEmailError(true);
-        } else {
-            setEmailError(false);
-        }
-
-        if (password === '') {
+            setPasswordError(true);
+        } else if (email === '') {
+            setEmailError(true);
+        } else if (password === '') {
             setPasswordError(true);
         } else {
-            setPasswordError(false);
+            fetch('http://localhost:58888/session',
+                {
+                    method: 'POST',
+                    body: JSON.stringify({username: email, password: password}),
+                    headers: {'content-type': 'application/json'}
+                })
+                .then(res => console.log(res))
+                .then((res) => {
+                    console.log(res)
+                    if(res.ok !== true) {
+                        if(res.status === 401) {
+                            setLoginError('Email veya sifre hatali');
+                        }
+                    }
+                    else {
+                        navigate('/home');
+                    }
+                })
+                // .then((res) => res.map((user) => {
+                //     console.log(res)
+                //     if(email === user.email && password === user.password) {
+                //         sessionStorage.setItem('email' , email);
+                //         sessionStorage.setItem('password', password);
+                //         navigate('/home');
+                //     }
+                //     else {
+                //         setLoginError('Email veya sifre hatali. Lutfen tekrar deneyiniz.')
+                //     }
+                // }))
+                .catch(() => setLoginError('Bir hata olustu.'))
         }
     }
+    console.log(email, password)
     return (
         <>
             <Grid textAlign='center' style={{height: '100vh'}} verticalAlign='middle'>
@@ -58,6 +90,15 @@ export function LoginPage() {
                             <div className="ui error message">
                                 <div className="header">
                                     Please fill all the required fields.
+                                </div>
+                            </div>
+                            : null
+                    }
+                    {
+                        loginError !== '' ?
+                            <div className="ui error message">
+                                <div className="header">
+                                    {loginError}
                                 </div>
                             </div>
                             : null
