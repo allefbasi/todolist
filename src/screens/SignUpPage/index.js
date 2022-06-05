@@ -1,4 +1,4 @@
-import {Button, Form, Grid, Header, Icon, Image, Label, Message, Segment} from "semantic-ui-react";
+import {Button, Form, Grid, Header, Message, Segment} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import {useState} from "react";
 
@@ -7,47 +7,48 @@ export function SignUpPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
-    const [rePasswordError, setRePasswordError] = useState(null);
-    const [passwordError, setPasswordError] = useState(null);
-    const [nameSurnameError, setNameSurnameError] = useState(null);
-    const [emailError, setEmailError] = useState(null);
-    const [passwordMatchError, setPasswordMatchError] = useState(null);
+    const [rePasswordError, setRePasswordError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [nameSurnameError, setNameSurnameError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+    const [passwordMatchError, setPasswordMatchError] = useState(false);
+    const [signUpMessage, setSignUpMessage] = useState('');
 
 
     const onSignUpClick = () => {
         //todo
-        if (nameSurname === '') {
-            setNameSurnameError(true);
-        } else {
-            setNameSurnameError(false);
-        }
-
-        if (email === '') {
-            setEmailError(true);
-        } else {
-            setEmailError(false);
-        }
-
-        if (password === '') {
-            setPasswordError(true);
-        } else {
-            setPasswordError(false);
-        }
-
-        if (rePassword === '') {
-            setRePasswordError(true);
-        } else {
-            setRePasswordError(false);
-        }
-
-        if (password !== rePassword) {
-            setPasswordMatchError(true);
-        } else {
-            setPasswordMatchError(false);
+        const requiredFields = [nameSurname, email, password, rePassword];
+        const emptyRequiredFields = requiredFields.map((fields) => fields = '');
+        if (emptyRequiredFields.length > 0) {
+            //todo error
+            return;
         }
 
 
+        fetch('url',
+            {
+                method: 'POST',
+                body: JSON.stringify
+                ({
+                    nameSurname: nameSurname,
+                    email: email,
+                    password: password,
+                    rePassword: rePassword,
+                }),
+                headers: {'content-type': 'application/json'}
+            })
+            // .then(res => console.log(res))
+            .then((res) => {
+                //todo kayit basarili ise
+                setSignUpMessage('Kaydiniz gerceklesmistir. Lutfen giris yapiniz.')
+                //todo kayit basarisiz ise
+                setSignUpMessage('biseyler');
+            })
+            .catch(() => {
+                setSignUpMessage('Bir hata olustu.')
+            })
     }
+
     return (
         <Grid textAlign='center' style={{height: '100vh'}} verticalAlign='middle'>
             <Grid.Column style={{maxWidth: 450}}>
@@ -106,6 +107,15 @@ export function SignUpPage() {
                                 </div>
                             </div>
                             : null
+                }
+                {
+                    signUpMessage !== '' ?
+                        <div className="ui error message">
+                            <div className="header">
+                                {signUpMessage}
+                            </div>
+                        </div>
+                        : null
                 }
             </Grid.Column>
         </Grid>
