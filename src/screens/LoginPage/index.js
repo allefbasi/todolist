@@ -1,5 +1,5 @@
 import {Button, Form, Grid, Header, Message, Segment} from 'semantic-ui-react'
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useState} from "react";
 
 export function LoginPage() {
@@ -9,7 +9,6 @@ export function LoginPage() {
     const [emailError, setEmailError] = useState(false);
     const [loginError, setLoginError] = useState('');
 
-    const navigate = useNavigate();
 
     const onLoginClick = () => {
         const requiredFields = [email, password];
@@ -39,7 +38,10 @@ export function LoginPage() {
                             setLoginError('Email veya sifre hatali');
                         }
                     } else {
-                        navigate('/home');
+                        res.json().then((body)=>{
+                            localStorage.setItem('jwt', body.jwt);
+                            window.location.reload();
+                        })
                     }
                 })
                 // .then((res) => res.map((user) => {
@@ -80,7 +82,7 @@ export function LoginPage() {
                                 error={passwordError}
                                 required
                             />
-                            <Button onClick={() => onLoginClick()} color='teal' fluid size='large'>
+                            <Button onClick={onLoginClick} color='teal' fluid size='large'>
                                 Giriş Yap
                             </Button>
                         </Segment>

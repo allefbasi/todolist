@@ -11,7 +11,6 @@ export function HomePage() {
         setItemValue('');
     }
     const removeItem = (removeItem) => {
-        //todo
         const newTodoList = [...todoList];
         setToDoList(newTodoList.filter((listItem) => listItem !== removeItem))
     }
@@ -40,7 +39,7 @@ export function HomePage() {
                 </Grid.Column>
                 <Grid.Column>
                     <Form>
-                        <Button disabled={itemValue === ''} onClick={() => onAddClick()} color='teal'>
+                        <Button disabled={itemValue.length === 0} onClick={onAddClick} color='teal'>
                             Ekle
                         </Button>
                     </Form>
