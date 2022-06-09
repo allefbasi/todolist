@@ -26,7 +26,7 @@ export function LoginPage() {
                 setPasswordError(false);
             }
         } else {
-            fetch('http://localhost:58888/session',
+            fetch(`${process.env.REACT_APP_BASE_URL}/session`,
                 {
                     method: 'POST',
                     body: JSON.stringify({username: email, password: password}),
@@ -35,7 +35,7 @@ export function LoginPage() {
                 .then((res) => {
                     if (res.ok !== true) {
                         if (res.status === 401) {
-                            setLoginError('Email veya sifre hatali');
+                            setLoginError('Email veya şifreniz hatalı.');
                         }
                     } else {
                         res.json().then((body)=>{
@@ -44,18 +44,7 @@ export function LoginPage() {
                         })
                     }
                 })
-                // .then((res) => res.map((user) => {
-                //     console.log(res)
-                //     if(email === user.email && password === user.password) {
-                //         sessionStorage.setItem('email' , email);
-                //         sessionStorage.setItem('password', password);
-                //         navigate('/home');
-                //     }
-                //     else {
-                //         setLoginError('Email veya sifre hatali. Lutfen tekrar deneyiniz.')
-                //     }
-                // }))
-                .catch(() => setLoginError('Bir hata olustu.'))
+                .catch(() => setLoginError('Bir hata oluştu.'))
         }
     }
 
@@ -94,7 +83,7 @@ export function LoginPage() {
                         emailError || passwordError ?
                             <div className="ui error message">
                                 <div className="header">
-                                    Please fill all the required fields.
+                                   Lütfen bütün zorunlu alanları doldurunuz.
                                 </div>
                             </div>
                             : null

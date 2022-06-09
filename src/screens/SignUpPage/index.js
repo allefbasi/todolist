@@ -47,7 +47,7 @@ export function SignUpPage() {
             setPasswordError(false)
             setRePasswordError(false);
 
-            fetch('http://localhost:58888/user',
+            fetch(`${process.env.REACT_APP_BASE_URL}/user`,
                 {
                     method: 'POST',
                     body: JSON.stringify
@@ -58,8 +58,6 @@ export function SignUpPage() {
                     }),
                     headers: {'content-type': 'application/json'}
                 })
-                // .then(res => console.log(res))
-
                 .then((res) => {
                     if (res.ok !== true) {
                         if (res.status === 409) {
@@ -76,7 +74,6 @@ export function SignUpPage() {
                     setSignUpMessage('Bir hata oluştu.')
                 })
         }
-
     }
 
     return (
