@@ -12,14 +12,20 @@ export function LoginPage() {
     const navigate = useNavigate();
 
     const onLoginClick = () => {
-        //todo
-        if (email === '' && password === '') {
-            setEmailError(true);
-            setPasswordError(true);
-        } else if (email === '') {
-            setEmailError(true);
-        } else if (password === '') {
-            setPasswordError(true);
+        const requiredFields = [email, password];
+        const emptyRequiredFields = requiredFields.map(s => s.trim()).filter((fields) => fields.length === 0);
+        if (emptyRequiredFields.length > 0) {
+
+            if (email.trim().length === 0) {
+                setEmailError(true);
+            } else {
+                setEmailError(false);
+            }
+            if (password.trim().length === 0) {
+                setPasswordError(true);
+            } else {
+                setPasswordError(false);
+            }
         } else {
             fetch('http://localhost:58888/session',
                 {
@@ -27,15 +33,12 @@ export function LoginPage() {
                     body: JSON.stringify({username: email, password: password}),
                     headers: {'content-type': 'application/json'}
                 })
-                .then(res => console.log(res))
                 .then((res) => {
-                    console.log(res)
-                    if(res.ok !== true) {
-                        if(res.status === 401) {
+                    if (res.ok !== true) {
+                        if (res.status === 401) {
                             setLoginError('Email veya sifre hatali');
                         }
-                    }
-                    else {
+                    } else {
                         navigate('/home');
                     }
                 })
@@ -53,7 +56,7 @@ export function LoginPage() {
                 .catch(() => setLoginError('Bir hata olustu.'))
         }
     }
-    console.log(email, password)
+
     return (
         <>
             <Grid textAlign='center' style={{height: '100vh'}} verticalAlign='middle'>

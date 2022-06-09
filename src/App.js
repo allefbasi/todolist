@@ -3,6 +3,8 @@ import {SignUpPage} from "./screens/SignUpPage";
 import {BrowserRouter, Routes, Route, useNavigate} from "react-router-dom";
 import {MenuComponent} from "./components/MenuComponent";
 import {HomePage} from "./screens/HomePage";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     return (
@@ -15,7 +17,7 @@ function App() {
                     <Route path={'/'} element={<HomePage/>}/>
                 </Routes>
             </BrowserRouter>
-
+            <ToastContainer/>
         </>
     );
 }
