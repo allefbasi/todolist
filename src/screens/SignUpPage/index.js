@@ -115,7 +115,7 @@ export function SignUpPage() {
                                 error={rePasswordError || passwordMatchError}
                                 required
                             />
-                            <Button onClick={() => onSignUpClick()} color='teal' fluid size='large'>
+                            <Button onClick={onSignUpClick} color='teal' fluid size='large'>
                                 Hesap Oluştur
                             </Button>
                         </Segment>
