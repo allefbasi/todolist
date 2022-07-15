@@ -40,6 +40,7 @@ export function LoginPage() {
                     } else {
                         res.json().then((body)=>{
                             localStorage.setItem('jwt', body.jwt);
+                            localStorage.setItem('userNameSurname', body.user.nameSurname)
                             window.location.reload();
                         })
                     }
