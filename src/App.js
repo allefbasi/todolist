@@ -15,7 +15,7 @@ function App() {
     return (
         <>
             <UserContext.Provider value={userNameSurname}>
-                <MenuComponent isLoggedIn={jwt != null}/>
+                <MenuComponent/>
                 <BrowserRouter>
                     {
                         jwt ?

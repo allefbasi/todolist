@@ -2,13 +2,13 @@ import {Header} from "semantic-ui-react";
 import {useContext} from "react";
 import {UserContext} from "../../App";
 
-export function MenuComponent(props) {
+export function MenuComponent() {
     const user = useContext(UserContext);
     const onLogoutClick = () => {
         localStorage.removeItem('jwt');
         window.location.reload();
     }
-    const isLoggedIn = props.isLoggedIn;
+    const isLoggedIn = user != null;
 
     return (
         <>
