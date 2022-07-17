@@ -30,8 +30,8 @@ function App() {
                             </Routes>
                     }
                 </BrowserRouter>
+                <ToastContainer/>
             </UserContext.Provider>
-            <ToastContainer/>
         </>
     );
 }
