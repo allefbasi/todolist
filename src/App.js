@@ -5,16 +5,22 @@ import {MenuComponent} from "./components/MenuComponent";
 import {HomePage} from "./screens/HomePage";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import {createContext} from "react";
+import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {setUserNameSurname} from "./features/user/userSlice";
 
-const jwt = localStorage.getItem('jwt');
-const userNameSurname = localStorage.getItem('userNameSurname');
-export const UserContext = createContext(null);
+export const jwt = localStorage.getItem('jwt');
 
 function App() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        const userNameSurname = localStorage.getItem('userNameSurname');
+        dispatch(setUserNameSurname(userNameSurname));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     return (
         <>
-            <UserContext.Provider value={userNameSurname}>
                 <MenuComponent/>
                 <BrowserRouter>
                     {
@@ -31,7 +37,6 @@ function App() {
                     }
                 </BrowserRouter>
                 <ToastContainer/>
-            </UserContext.Provider>
         </>
     );
 }
