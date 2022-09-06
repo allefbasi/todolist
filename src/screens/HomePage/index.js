@@ -53,7 +53,7 @@ export function HomePage() {
                 }
             })
     }
-    
+
     const removeItem = (id) => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todo/${id}`,
             {
